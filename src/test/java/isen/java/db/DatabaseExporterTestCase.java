@@ -1,4 +1,4 @@
-package isen.java.db.util;
+package isen.java.db;
 
 import static org.junit.Assert.fail;
 import org.junit.Before;

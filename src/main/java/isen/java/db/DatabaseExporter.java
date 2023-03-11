@@ -1,4 +1,4 @@
-package isen.java.db.util;
+package isen.java.db;
 
 // TODO: may not be the best structure, check again later
 public class DatabaseExporter {

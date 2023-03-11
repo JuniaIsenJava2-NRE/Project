@@ -16,6 +16,13 @@ public class App extends Application {
     private static Scene scene;
 
     @Override
+    public void init() throws Exception {
+        // TODO Auto-generated method stub
+        super.init();
+        
+    }
+
+    @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
@@ -27,7 +34,8 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        System.out.println(App.class.getResource("/isen/java/view/" + fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/isen/java/view/" + fxml + ".fxml"));
         return fxmlLoader.load();
     }
 

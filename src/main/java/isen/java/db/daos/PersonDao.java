@@ -1,11 +1,13 @@
 package isen.java.db.daos;
 
 import java.util.List;
+import isen.java.db.DataSourceFactory;
 import isen.java.db.entities.Person;
 
 public class PersonDao {
     
     public List<Person> listPeople() {
+        DataSourceFactory.getDataSource();
         // TODO: Implement this.
         return null;
     }
