@@ -7,6 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Statement;
+import isen.java.db.DataSourceFactory;
 
 /**
  * JavaFX App
@@ -17,9 +20,20 @@ public class App extends Application {
 
     @Override
     public void init() throws Exception {
-        // TODO Auto-generated method stub
         super.init();
         
+        Connection connection = DataSourceFactory.getDataSource().getConnection();
+		Statement statement = connection.createStatement();
+
+		statement.executeUpdate("CREATE TABLE IF NOT EXISTS person (\r\n"
+				+ "idperson INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\r\n"
+				+ "lastname VARCHAR(45) NOT NULL,\r\n" + "firstname VARCHAR(45) NOT NULL,\r\n"
+				+ "nickname VARCHAR(45) NOT NULL,\r\n" + "phone_number VARCHAR(15) NULL,\r\n"
+				+ "address VARCHAR(200) NULL,\r\n" + "email_address VARCHAR(150) NULL,\r\n"
+                + "birth_date DATE NULL);");
+                
+        statement.close();
+        connection.close();
     }
 
     @Override
