@@ -27,6 +27,7 @@ public class PeopleListController {
     private PersonDao personDao = new PersonDao();
 
     private ObservableList<Person> observablePeopleList;
+
     @FXML
     private Button addButton;
 
@@ -125,6 +126,7 @@ public class PeopleListController {
     void initialize() {
         updateButton.setDisable(true);
         addButton.setDisable(true);
+        exportButton.setDisable(true);
         deleteButton.setDisable(true);
 
         nickname.textProperty().addListener(arg0 -> updateAddButtonDisable());
