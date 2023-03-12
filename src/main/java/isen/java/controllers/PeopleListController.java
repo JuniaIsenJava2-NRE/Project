@@ -18,9 +18,11 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Callback;
+import javafx.util.converter.IntegerStringConverter;
 
 public class PeopleListController {
 
@@ -88,7 +90,9 @@ public class PeopleListController {
         directoryChooser.setInitialDirectory(new File("/"));
         File selectedDirectory =
                 directoryChooser.showDialog(((Node) event.getTarget()).getScene().getWindow());
-        exportDirectory.setText(selectedDirectory.toPath().toAbsolutePath().toString());
+        if (selectedDirectory != null) {
+            exportDirectory.setText(selectedDirectory.toPath().toAbsolutePath().toString());
+        }
     }
 
     @FXML
@@ -132,6 +136,25 @@ public class PeopleListController {
         nickname.textProperty().addListener(arg0 -> updateAddButtonDisable());
         firstname.textProperty().addListener(arg0 -> updateAddButtonDisable());
         lastname.textProperty().addListener(arg0 -> updateAddButtonDisable());
+
+        phoneNumber.setTextFormatter(new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\+?[0-9]*")) {
+                return change;
+            } else {
+                return null;
+            }
+        }));
+
+        email.setTextFormatter(new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("^[\\w-\\.]*@?([\\w]+\\.?)*([\\w-]{2,4})?$")) {
+                return change;
+            } else {
+                return null;
+            }
+        }));
+
 
         exportDirectory.textProperty().addListener(arg0 -> updateExportButtonDisable());
 
