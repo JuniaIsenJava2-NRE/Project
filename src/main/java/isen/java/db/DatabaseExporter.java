@@ -5,12 +5,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import isen.java.db.daos.PersonDao;
 import isen.java.db.entities.Person;
 
-// TODO: may not be the best structure, check again later
 public class DatabaseExporter {
 
     private static PersonDao personDao = new PersonDao();
@@ -20,7 +18,6 @@ public class DatabaseExporter {
         try {
             Files.createDirectories(directoryPath);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

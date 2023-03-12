@@ -32,13 +32,16 @@ public class PersonDaoTestCase {
 		statement.executeUpdate("DELETE FROM person");
 
 		statement.executeUpdate(
-				"INSERT INTO person (lastname, firstname, nickname, phone_number, address, email_address, birth_date) VALUES ('Smith', 'John', 'Johnny', '555-1234', '123 Main St', 'john.smith@email.com', '1990-01-01 12:00:00.000');");
+				"INSERT INTO person (lastname, firstname, nickname, phone_number, address, email_address, birth_date) VALUES ('Smith', 'John', 'Johnny', '555-1234', '123 Main St', NULL, '1990-01-01 12:00:00.000');");
 
 		statement.executeUpdate(
-				"INSERT INTO person (lastname, firstname, nickname, phone_number, address, email_address, birth_date) VALUES ('Garcia', 'Maria', 'Mary', '555-5678', '456 Elm St', 'maria.garcia@email.com', '1995-05-05 12:00:00.000');");
+				"INSERT INTO person (lastname, firstname, nickname, phone_number, address, email_address, birth_date) VALUES ('Garcia', 'Maria', 'Mary', '555-5678', '456 Elm St', 'maria.garcia@email.com', NULL);");
 
 		statement.executeUpdate(
 				"INSERT INTO person (lastname, firstname, nickname, phone_number, address, email_address, birth_date) VALUES ('Kim', 'Soo', 'Sue', NULL, '789 Oak St', 'soo.kim@email.com', '1985-12-31 12:00:00.000');");
+
+		statement.executeUpdate(
+				"INSERT INTO person (lastname, firstname, nickname, phone_number, address, email_address, birth_date) VALUES ('Wang', 'Yan', 'Yanny', '555-6789', NULL, 'yan.wang@email.com', '1996-04-10 12:00:00.000');");
 
 		statement.close();
 		connection.close();
@@ -50,17 +53,19 @@ public class PersonDaoTestCase {
 		// WHEN
 		List<Person> people = personDao.listPeople();
 		// THEN
-		assertThat(people).hasSize(3);
+		assertThat(people).hasSize(4);
 		assertThat(people)
 				.extracting("lastname", "firstname", "nickname", "phoneNumber", "address",
 						"emailAddress", "birthDate")
 				.containsOnly(
-						tuple("Smith", "John", "Johnny", "555-1234", "123 Main St",
-								"john.smith@email.com", LocalDate.of(1990, 01, 01)),
+						tuple("Smith", "John", "Johnny", "555-1234", "123 Main St", null,
+								LocalDate.of(1990, 01, 01)),
 						tuple("Garcia", "Maria", "Mary", "555-5678", "456 Elm St",
-								"maria.garcia@email.com", LocalDate.of(1995, 05, 05)),
+								"maria.garcia@email.com", null),
 						tuple("Kim", "Soo", "Sue", null, "789 Oak St", "soo.kim@email.com",
-								LocalDate.of(1985, 12, 31)));
+								LocalDate.of(1985, 12, 31)),
+						tuple("Wang", "Yan", "Yanny", "555-6789", null, "yan.wang@email.com",
+								LocalDate.of(1996, 04, 10)));
 	}
 
 	@Test
@@ -108,17 +113,6 @@ public class PersonDaoTestCase {
 
 		// THEN
 		assertThat(success).isTrue();
-
-		// TODO: Uncomment if necessary
-		// Verify that the updated person has the correct values in the database
-		// Person updatedPerson = personDao.getPersonById(addedPerson.getId());
-		// assertThat(updatedPerson).isNotNull();
-		// assertThat(updatedPerson)
-		// .extracting("lastname", "firstname", "nickname", "phoneNumber", "address",
-		// "emailAddress", "birthDate")
-		// .containsOnly("Doe", "John", "Johnny", "555-4321", "456 Second St",
-		// "john.doe@email.com",
-		// LocalDate.of(1990, 1, 1));
 	}
 
 	@Test

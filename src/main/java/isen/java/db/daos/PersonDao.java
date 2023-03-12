@@ -20,6 +20,7 @@ public class PersonDao {
             try (Statement statement = connection.createStatement()) {
                 try (ResultSet resultSet = statement.executeQuery("SELECT * FROM person")) {
                     while (resultSet.next()) {
+                        Date birthDate = resultSet.getDate("birth_date");
                         Person person = new Person();
                         person.setId(resultSet.getInt("idperson"));
                         person.setLastname(resultSet.getString("lastname"));
@@ -28,7 +29,7 @@ public class PersonDao {
                         person.setPhoneNumber(resultSet.getString("phone_number"));
                         person.setAddress(resultSet.getString("address"));
                         person.setEmailAddress(resultSet.getString("email_address"));
-                        person.setBirthDate(resultSet.getDate("birth_date").toLocalDate());
+                        person.setBirthDate(birthDate != null ? birthDate.toLocalDate() : null);
                         people.add(person);
                     }
                 }
@@ -55,7 +56,8 @@ public class PersonDao {
                 statement.setString(4, person.getPhoneNumber());
                 statement.setString(5, person.getAddress());
                 statement.setString(6, person.getEmailAddress());
-                statement.setDate(7, Date.valueOf(person.getBirthDate()));
+                statement.setDate(7,
+                        person.getBirthDate() != null ? Date.valueOf(person.getBirthDate()) : null);
 
                 // Execute the statement
                 int affectedRows = statement.executeUpdate();
@@ -102,7 +104,7 @@ public class PersonDao {
                 statement.setString(4, person.getPhoneNumber());
                 statement.setString(5, person.getAddress());
                 statement.setString(6, person.getEmailAddress());
-                statement.setObject(7, Date.valueOf(person.getBirthDate()));
+                statement.setObject(7, person.getBirthDate() != null ? Date.valueOf(person.getBirthDate()) : null);
                 statement.setLong(8, person.getId());
 
                 int rowsUpdated = statement.executeUpdate();
@@ -128,6 +130,7 @@ public class PersonDao {
                 statement.setInt(1, id);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
+                        Date birthDate = resultSet.getDate("birth_date");
                         deletedPerson = new Person();
                         deletedPerson.setId(resultSet.getInt("idperson"));
                         deletedPerson.setLastname(resultSet.getString("lastname"));
@@ -136,7 +139,7 @@ public class PersonDao {
                         deletedPerson.setPhoneNumber(resultSet.getString("phone_number"));
                         deletedPerson.setAddress(resultSet.getString("address"));
                         deletedPerson.setEmailAddress(resultSet.getString("email_address"));
-                        deletedPerson.setBirthDate(resultSet.getDate("birth_date").toLocalDate());
+                        deletedPerson.setBirthDate(birthDate != null ? birthDate.toLocalDate() : null);
                     }
                 }
             }
